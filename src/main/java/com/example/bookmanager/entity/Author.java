@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,5 +20,5 @@ public class Author {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "authors")
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 }

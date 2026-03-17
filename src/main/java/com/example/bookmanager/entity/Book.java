@@ -11,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,10 +26,10 @@ public class Book {
     private Integer publicationYear;
     @ManyToMany
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors;
+    private Set<Author> authors = new HashSet<>();
     @ManyToMany
     @JoinTable(name = "book_category", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> categories;
+    private Set<Category> categories = new HashSet<>();
     @OneToMany(mappedBy = "book")
-    private Set<UserBook> userBooks;
+    private Set<UserBook> userBooks = new HashSet<>();
 }

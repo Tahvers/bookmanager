@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,6 +28,6 @@ public class User {
     private String email;
     private String password;
     @OneToMany(mappedBy = "user")
-    private Set<UserBook> userBooks;
+    private Set<UserBook> userBooks = new HashSet<>();
     private LocalDate createdAt;
 }
