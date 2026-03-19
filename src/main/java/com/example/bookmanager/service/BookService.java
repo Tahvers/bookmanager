@@ -5,6 +5,7 @@ import com.example.bookmanager.dto.book.CreateBookRequest;
 import com.example.bookmanager.entity.Author;
 import com.example.bookmanager.entity.Book;
 import com.example.bookmanager.entity.Category;
+import com.example.bookmanager.exception.ResourceNotFoundException;
 import com.example.bookmanager.mapper.BookMapper;
 import com.example.bookmanager.repository.AuthorRepository;
 import com.example.bookmanager.repository.BookRepository;
@@ -31,8 +32,9 @@ public class BookService {
         return bookRepository.findAll().stream().map(bookMapper::toDto).collect(Collectors.toList());
     }
 
-    public Book getBookById(Long id){
-        return bookRepository.findById(id).orElseThrow(() -> new RuntimeException("Book not found with id: " + id));
+    public BookResponse getBookById(Long id){
+        Book book = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + id));
+        return bookMapper.toDto(book);
     }
 
     public BookResponse createBook(CreateBookRequest createBookRequest){
