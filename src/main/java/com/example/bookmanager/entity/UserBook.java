@@ -1,14 +1,9 @@
 package com.example.bookmanager.entity;
 
 import com.example.bookmanager.entity.enums.ReadingStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "book_id"}))
 public class UserBook {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +25,16 @@ public class UserBook {
     private Book book;
     @Enumerated(EnumType.STRING)
     private ReadingStatus status;
+    @Min(1) @Max(5)
     private Integer rating;
     private LocalDate addedDate;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.addedDate == null) {
+            this.addedDate = LocalDate.now();
+        }
+    }
 }
+
+
